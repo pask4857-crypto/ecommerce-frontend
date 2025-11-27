@@ -1,6 +1,7 @@
 <template>
     <div class="cart-page">
         <h1>購物車</h1>
+        <button class="back-button" @click="goBackToShop">返回購物頁面</button>
 
         <!-- 如果購物車沒商品 -->
         <div v-if="cartStore.cartItems.length === 0">
@@ -11,27 +12,44 @@
         <div v-else class="cart-list">
             <div v-for="item in cartStore.cartItems" :key="item.id" class="cart-item">
                 <img :src="item.image" :alt="item.name" class="cart-item-image" />
+
                 <div class="cart-item-info">
                     <h3>{{ item.name }}</h3>
                     <p>價格: ${{ item.price }}</p>
-                    <p>數量: {{ item.quantity }}</p>
-                    <button @click="removeFromCart(item.id)">移除</button>
+
+                    <!-- 數量調整 -->
+                    <div class="quantity-control">
+                        <span>數量: </span>
+                        <button @click="decreaseQuantity(item.id)">➖</button>
+                        <span>{{ item.quantity }}</span>
+                        <button @click="increaseQuantity(item.id)">➕</button>
+                    </div>
+                    <p>小計: ${{ item.price * item.quantity }}</p>
+
+                    <button class="remove-btn" @click="removeFromCart(item.id)">移除</button>
                 </div>
             </div>
 
-            <!-- 總金額 -->
-            <div class="cart-total">
-                總金額: ${{ totalPrice }}
-            </div>
         </div>
+        <!-- 總金額 -->
+        <div class="cart-total">
+            總金額: ${{ totalPrice }}
+        </div>
+        <button @click="$router.push('/checkout')">前往結帳</button>
     </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 import { useCartStore } from "../store/cart";
+import { useRouter } from 'vue-router';
 
-// ⭐ 使用購物車 store
+const router = useRouter()
+
+const goBackToShop = () => {
+    router.push('/products')
+}
+
 const cartStore = useCartStore();
 
 // ⭐ 計算總金額
@@ -43,6 +61,25 @@ const totalPrice = computed(() =>
 const removeFromCart = (id) => {
     cartStore.removeFromCart(id);
 };
+
+// ⭐ 增加數量
+const increaseQuantity = (id) => {
+    cartStore.addToCart({ id }); // 可以重用 addToCart 的邏輯
+};
+
+// ⭐ 減少數量
+const decreaseQuantity = (id) => {
+    const item = cartStore.cartItems.find((i) => i.id === id);
+    if (!item) return;
+
+    if (item.quantity > 0) {
+        item.quantity -= 1;
+    } else {
+        // 變成 0 就直接移除
+        // cartStore.removeFromCart(id);
+        item.quantity = 0;
+    }
+};
 </script>
 
 <style scoped>
@@ -53,7 +90,7 @@ const removeFromCart = (id) => {
 .cart-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    padding: 20px;
 }
 
 .cart-item {
@@ -74,6 +111,17 @@ const removeFromCart = (id) => {
     flex-direction: column;
     justify-content: space-between;
 }
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+}
+
+.quantity-control button {}
+
+.remove-btn {}
 
 .cart-total {
     font-weight: bold;

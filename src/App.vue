@@ -4,6 +4,7 @@
       <router-link to="/">首頁</router-link>
       <router-link to="/products" style="margin-left: 10px;">商品列表</router-link>
       <router-link to="/cart" style="margin-left: 10px;">購物車</router-link>
+      <router-link to="/checkout" style="margin-left: 10px;">結帳</router-link>
 
     </nav>
 
