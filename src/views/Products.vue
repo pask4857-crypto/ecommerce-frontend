@@ -1,13 +1,14 @@
-<template>
-    <div class="products-page">
-        <h1>商品列表</h1>
-        <div class="product-list">
-            <ProductCard v-for="product in productStore.products" :key="product.id" :product="product" />
+    <template>
+        <div class="products-page">
+            <h1>商品列表</h1>
+            <div class="product-list">
+                <ProductCard v-for="product in productStore.products" :key="product.id" :product="product" />
+            </div>
         </div>
-    </div>
-</template>
+    </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { useProductStore } from "../store/product";
 import ProductCard from "../components/ProductCard.vue";
 
@@ -18,6 +19,10 @@ defineOptions({
 
 //  取得 product store
 const productStore = useProductStore();
+
+onMounted(() => {
+    productStore.fetchProducts(); // 抓後端資料
+});
 </script>
 
 
