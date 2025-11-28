@@ -2,7 +2,7 @@
         <div class="products-page">
             <h1>商品列表</h1>
             <div class="product-list">
-                <ProductCard v-for="product in productStore.products" :key="product.id" :product="product" />
+                <ProductCard v-for="product in productStore.products" :key="product.productId" :product="product" />
             </div>
         </div>
     </template>

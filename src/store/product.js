@@ -3,9 +3,9 @@ import axios from 'axios'
 
 export const useProductStore = defineStore('product', {
   state: () => ({
-    products: [], // 由後端取得，不再預設硬編碼
-    loading: false,
-    error: null,
+    products: [],
+    loading: false, // 新增 loading
+    error: null, // 新增 error
   }),
   getters: {
     getProductById: (state) => {
@@ -19,7 +19,11 @@ export const useProductStore = defineStore('product', {
       this.error = null
       try {
         const response = await axios.get('http://localhost:8080/api/products')
-        this.products = response.data
+        // 將圖片檔名轉成完整 URL
+        this.products = response.data.map((p) => ({
+          ...p,
+          mainImageUrl: p.image ? `http://localhost:8080/uploads/product-images/${p.image}` : null,
+        }))
       } catch (err) {
         console.error('抓取商品資料失敗：', err)
         this.error = '抓取商品資料失敗'
@@ -28,7 +32,7 @@ export const useProductStore = defineStore('product', {
       }
     },
 
-    // 新增商品（若需要，會同步呼叫後端 API）
+    // 新增商品（測試用）
     async addProduct(product) {
       try {
         const response = await axios.post('http://localhost:8080/api/products', product)
@@ -38,16 +42,12 @@ export const useProductStore = defineStore('product', {
       }
     },
 
-    // 更新商品（若需要，會同步呼叫後端 API）
+    // 更新商品（若後端未實作 PUT，可以暫時不呼叫）
     async updateProduct(id, updated) {
-      try {
-        const response = await axios.put(`http://localhost:8080/api/products/${id}`, updated)
-        const index = this.products.findIndex((p) => p.productId === id)
-        if (index !== -1) {
-          this.products[index] = { ...this.products[index], ...response.data }
-        }
-      } catch (err) {
-        console.error('更新商品失敗：', err)
+      console.warn('updateProduct 方法暫時未連接後端 PUT API')
+      const index = this.products.findIndex((p) => p.productId === id)
+      if (index !== -1) {
+        this.products[index] = { ...this.products[index], ...updated }
       }
     },
   },

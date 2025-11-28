@@ -1,6 +1,6 @@
 <template>
     <div class="product-card">
-        <img :src="product.image" alt="product image" class="product-image" />
+        <img :src="product.image" class="product-image" />
         <h3>{{ product.name }}</h3>
         <p class="price">NT$ {{ product.price }}</p>
         <button @click="addToCart(product)">加入購物車</button>
@@ -25,8 +25,12 @@ const cartStore = useCartStore();
 
 //  加入購物車的函式
 const addToCart = (product) => {
-    cartStore.addToCart(product);
-    alert(`${product.name} 已加入購物車`);
+    cartStore.addToCart({
+        id: product.productId,
+        name: product.name,
+        price: product.price,
+        image: product.image
+    });
 };
 </script>
 
