@@ -41,7 +41,7 @@
 
 <script setup>
 import { computed } from "vue";
-import { useCartStore } from "../store/cart";
+import { useCartStore } from "@/store/cart";
 import { useRouter } from 'vue-router';
 
 const router = useRouter()

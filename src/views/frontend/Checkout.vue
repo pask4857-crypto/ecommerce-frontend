@@ -51,7 +51,7 @@
 
 <script setup>
 import { reactive, computed } from 'vue'
-import { useCartStore } from "../store/cart"
+import { useCartStore } from "@/store/cart"
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 

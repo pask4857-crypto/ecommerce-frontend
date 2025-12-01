@@ -7,34 +7,60 @@ const routes = [
       {
         path: '',
         name: 'Home',
-        component: () => import('@/views/Home.vue'),
+        component: () => import('@/views/frontend/Home.vue'),
       },
       {
         path: 'products',
         name: 'Products',
-        component: () => import('@/views/Products.vue'),
+        component: () => import('@/views/frontend/Products.vue'),
       },
       {
         path: 'cart',
         name: 'Cart',
-        component: () => import('@/views/Cart.vue'),
+        component: () => import('@/views/frontend/Cart.vue'),
       },
       {
         path: 'checkout',
         name: 'Checkout',
-        component: () => import('@/views/Checkout.vue'),
+        component: () => import('@/views/frontend/Checkout.vue'),
       },
       {
         path: 'payment',
         name: 'Payment',
-        component: () => import('@/views/Payment.vue'),
+        component: () => import('@/views/frontend/Payment.vue'),
       },
       {
         path: ':pathMatch(.*)*',
         name: 'NotFound',
-        component: () => import('@/views/NotFound.vue'),
+        component: () => import('@/views/frontend/NotFound.vue'),
       },
     ],
+  },
+  {
+    path: '/admin',
+    component: () => import('@/views/admin/LayoutAdmin.vue'),
+    children: [
+      {
+        path: '',
+        name: 'AdminDashboard',
+        component: () => import('@/views/admin/Dashboard.vue'),
+      },
+      {
+        path: 'products',
+        name: 'AdminProducts',
+        component: () => import('@/views/admin/ProductsAdmin.vue'),
+      },
+      {
+        path: 'orders',
+        name: 'AdminOrders',
+        component: () => import('@/views/admin/OrdersAdmin.vue'),
+      },
+    ],
+  },
+  {
+    path: '/admin/login',
+    name: 'AdminLogin',
+    component: () => import('@/views/admin/LoginAdmin.vue'),
   },
 ]
 

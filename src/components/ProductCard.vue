@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { useCartStore } from "../store/cart";
+import { useCartStore } from "@/store/cart";
 
 //  定義元件名稱（可選）
 defineOptions({

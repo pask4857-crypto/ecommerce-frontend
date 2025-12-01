@@ -9,8 +9,8 @@
 
 <script setup>
 import { onMounted } from "vue";
-import { useProductStore } from "../store/product";
-import ProductCard from "../components/ProductCard.vue";
+import { useProductStore } from "@/store/product";
+import ProductCard from "@/components/ProductCard.vue";
 
 //  定義元件名稱（可選）
 defineOptions({
